@@ -1,0 +1,63 @@
+---
+import { allPlaylists, songs } from '@lib/data';
+import Layout from '../../layouts/Layout.astro';
+import SongCard from '@components/SongCard.astro';
+
+const { id } = Astro.params;
+const playlist = allPlaylists.find((playlist) => playlist.id === id);
+let error = '';
+if (!playlist) {
+  error = 'No se encontró la playlist'
+  return
+};
+const playListSongs = songs.filter((song) => song.albumId === playlist.albumId);
+const { id: playlistId, color, title, cover, artists } = playlist;
+---
+
+<Layout title="Spotify Clone">
+	<div id="playlist-container" class=`relative flex flex-col h-full bg-[${color}] overflow-x-hidden`
+  transition:name=`playlist-${id}-box`
+  >
+		<!-- TODO: <PageHeader /> -->
+    <header class="flex mt-12">
+      <picture class="size-52 flex-none">
+        <img src={cover} alt={`Cover de ${title}`} class="shadow-lg rounded-md object-cover"
+        transition:name=`playlist-${playlistId}-cover` />
+      </picture>
+      <div class="flex flex-col gap-1 px-6">
+        <h2 class="flex flex-1 items-end">Playlist</h2>
+        <div>
+          <h1 class="text-5xl font-bold block text-white">
+            {title}
+            <span transition:name=`playlist ${playlistId} title`></span>
+          </h1>
+        </div>
+
+        <div class="flex-1 flex items-end">
+          <div class="text-sm text-gray-300 font-normal">
+            <div transition:name=`playlist ${playlistId} artists`>
+              <span>{artists.join(", ")}</span>
+            </div>
+            <p class="mt-1">
+              <span class="text-white">{playListSongs.length} canciones</span>,
+              3 h aproximadamente
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+		<div class="relative z-10 px-6 pt-7">
+			<!-- TODO: <Greetings /> -->
+
+			<div class="flex flex-wrap gap-4 mt-4">
+				{
+					playListSongs.map((song) => (
+						<SongCard song={song} />
+          ))
+				}
+			</div>
+		</div>
+		<div class="absolute inset-0 -z-10 bg-gradient-to-t from-black via-black/50"></div>
+	</div>
+</Layout>

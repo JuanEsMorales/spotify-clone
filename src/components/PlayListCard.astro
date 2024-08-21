@@ -1,0 +1,28 @@
+---
+import { type Playlist } from "@lib/data";
+import CardPlayButton from './CardPlayButton.jsx'
+
+interface Props {
+  playlist: Playlist;
+}
+const { playlist } = Astro.props;
+const { id, artists, color, title, cover } = playlist;
+
+const artistsNames = artists.join(", ");
+---
+
+<article class="group relative bg-zinc-800 hover:bg-zinc-700 transition-all duration-300 shadow-lg hover:shadow-xl">
+  <div class="absolute bottom-24 right-4 translate-y-4 z-30 transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-y-0">
+    <CardPlayButton id={id} client:load />
+  </div>
+  <a href={`/playlist/${id}`} class="playlist-item flex flex-col relative p-2 gap-2 rounded-md" transition:name=`playlist-${id}-box`>
+    <picture class="size-44 flex-none">
+      <img src={cover} alt={`Cover de ${title} por ${artistsNames}`} class="rounded-md object-cover"
+      transition:name=`playlist-${id}-cover` />
+    </picture>
+    <div class="flex-auto flex flex-col gap-1 pb-6 truncate">
+      <h3 class="text-sm font-medium" transition:name=`playlist ${id} title`>{title}</h3>
+      <p class="text-xs text-zinc-400" transition:name=`playlist ${id} artists`>{artistsNames}</p>
+    </div>
+  </a>
+</article>
