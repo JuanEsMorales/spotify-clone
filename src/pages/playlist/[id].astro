@@ -1,7 +1,8 @@
 ---
 import { allPlaylists, songs } from '@lib/data';
 import Layout from '../../layouts/Layout.astro';
-import SongCard from '@components/SongCard.astro';
+import CardPlayButton from '@components/CardPlayButton.jsx';
+import MusicTable from '@components/MusicTable.astro';
 
 const { id } = Astro.params;
 const playlist = allPlaylists.find((playlist) => playlist.id === id);
@@ -15,13 +16,13 @@ const { id: playlistId, color, title, cover, artists } = playlist;
 ---
 
 <Layout title="Spotify Clone">
-	<div id="playlist-container" class=`relative flex flex-col h-full bg-[${color}] overflow-x-hidden`
+	<div id="playlist-container" class=`relative flex flex-col h-full bg-[${color}] overflow-x-hidden bg-zinc-900`
   transition:name=`playlist-${id}-box`
   >
 		<!-- TODO: <PageHeader /> -->
-    <header class="flex mt-12">
+    <header class="flex ml-5 mt-12">
       <picture class="size-52 flex-none">
-        <img src={cover} alt={`Cover de ${title}`} class="shadow-lg rounded-md object-cover"
+        <img src={cover} alt={`Cover de ${title}`} class="shadow-lg object-cover"
         transition:name=`playlist-${playlistId}-cover` />
       </picture>
       <div class="flex flex-col gap-1 px-6">
@@ -46,17 +47,15 @@ const { id: playlistId, color, title, cover, artists } = playlist;
         </div>
       </div>
     </header>
+    <div class="pl-6 pt-6">
+      <CardPlayButton id={playlistId} size='large' client:load />
+    </div>
 
 		<div class="relative z-10 px-6 pt-7">
 			<!-- TODO: <Greetings /> -->
 
 			<div class="flex flex-wrap gap-4 mt-4">
-				{
-					playListSongs.map((song) => (
-						<SongCard song={song} />
-          ))
-				}
-			</div>
+				<MusicTable songs={playListSongs} />
 		</div>
 		<div class="absolute inset-0 -z-10 bg-gradient-to-t from-black via-black/50"></div>
 	</div>

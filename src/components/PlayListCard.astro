@@ -11,7 +11,7 @@ const { id, artists, color, title, cover } = playlist;
 const artistsNames = artists.join(", ");
 ---
 
-<article class="group relative bg-zinc-800 hover:bg-zinc-700 transition-all duration-300 shadow-lg hover:shadow-xl">
+<article class="group relative bg-zinc-800 hover:bg-zinc-700 transition-all duration-300 shadow-lg hover:shadow-xl overflow-hidden rounded-md">
   <div class="absolute bottom-24 right-4 translate-y-4 z-30 transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-y-0">
     <CardPlayButton id={id} client:load />
   </div>

@@ -3,7 +3,7 @@ import Pause from '../icons/Pause.jsx'
 
 import { usePlayerStore } from '@store/playerStore'
 
-export default function CardPlayButton({ id }) {
+export default function CardPlayButton({ id, size = 'small' }) {
   const { isPlaying, setIsPlaying, currentMusic, setCurrentMusic } = usePlayerStore(state => state)
 
   const isPlayingPlaylist = currentMusic.playlist?.id === id && isPlaying
@@ -24,8 +24,9 @@ export default function CardPlayButton({ id }) {
       })
   }
 
+
   return (
-    <button className='rounded-full bg-green-500 p-4 text-black' onClick={handlePlayPause}>
+    <button className={`rounded-full bg-green-500 ${size === 'small' ? 'p-4' : 'p-5'} text-black hover:bg-green-400 hover:scale-105 transition`} onClick={handlePlayPause}>
       {isPlayingPlaylist ? <Pause /> : <Play />}
     </button>
   )
